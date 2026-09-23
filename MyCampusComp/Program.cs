@@ -2,9 +2,14 @@ using MyCampusComp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services
+// Add controllers
 builder.Services.AddControllers();
-builder.Services.AddScoped<OpenAIService>();
+
+// Register OpenRouter service
+builder.Services.AddHttpClient<OpenRouterService>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(60);
+});
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -12,7 +17,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Swagger - available on Azure
+// Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
 
